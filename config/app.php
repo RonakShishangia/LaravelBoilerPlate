@@ -178,6 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         /** Laratrust */
         Laratrust\LaratrustServiceProvider::class,
+        /** JWT */
+        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
 
     ],
 
@@ -229,6 +231,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         /** Laratrust */
         'Laratrust'   => Laratrust\LaratrustFacade::class,
+        /** JWT */
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
     ],
 
 ];
