@@ -11,6 +11,12 @@ use App\Role;
 use App\Permission;
 use Auth;
 use JWTAuthException;
+
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+
 class UserController extends Controller
 {   
 
@@ -53,6 +59,25 @@ class UserController extends Controller
         // store FCM device id in user table
         // $updateFCMToken = User::where('id', $userId)->update(['FCM_device_id' => $request->FCMDeviceId]);
 
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+
+        $notificationBuilder = new PayloadNotificationBuilder('my title');
+        $liveImg = "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAwjAAAAJDRiN2YwYjE5LTEwMzAtNDc0Mi1iZjIwLTNjMzMyMzM4ZmNkMQ.jpg";
+        $notificationBuilder->setIcon($liveImg)->setBody('Hello world ')
+                            ->setSound('default');
+
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['a_data' => 'my_data']);
+
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+
+        $device_Id = $request->FCM;
+
+        $downstreamResponse = FCM::sendTo($device_Id, $option, $notification, $data);
+       
         return response()->json(compact('token', 'userId', 'userRole', 'abilities'));
     }
 
