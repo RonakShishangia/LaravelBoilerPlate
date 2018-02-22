@@ -57,7 +57,7 @@ class UserController extends Controller
             $userRole[] = $role->name;
         }
         // store FCM device id in user table
-        // $updateFCMToken = User::where('id', $userId)->update(['FCM_device_id' => $request->FCMDeviceId]);
+        $updateFCMToken = User::where('id', $userId)->update(['FCM_device_id' => $request->FCMDeviceId]);
 
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60*20);
