@@ -50,6 +50,8 @@ class UserController extends Controller
         foreach ($user->Roles as $role) {
             $userRole[] = $role->name;
         }
+        // store FCM device id in user table
+        // $updateFCMToken = User::where('id', $userId)->update(['FCM_device_id' => $request->FCMDeviceId]);
 
         return response()->json(compact('token', 'userId', 'userRole', 'abilities'));
     }
